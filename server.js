@@ -36,3 +36,23 @@ function Location(data) {
 }
 
 app.listen(PORT, ()=> console.log(`App is up on ${PORT}`));
+
+app.get ('/weather', (request,response)=> {
+   
+    const weatherData = searchWeather(request.query.data);
+    response.send(weatherData);
+});
+
+function searchWeather() {
+    const darkSkyData = require('./darksky.json');
+    const weather = [];
+    weather.push(new Weather(darkSkyData.currently))
+    return weather;
+}
+
+
+
+function Weather (data) {
+    this.time =data.time;
+    this.forecast =data.summary;
+}
