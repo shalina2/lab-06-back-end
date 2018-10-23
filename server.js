@@ -46,13 +46,18 @@ app.get ('/weather', (request,response)=> {
 function searchWeather() {
     const darkSkyData = require('./darksky.json');
     const weather = [];
-    weather.push(new Weather(darkSkyData.currently))
+    //weather.push(new Weather(darkSkyData.currently))
+    darkSkyData.daily.data.forEach(day=> {
+        weather.push(new Weather(day));
+    })
     return weather;
 }
 
 
 
 function Weather (data) {
-    this.time =data.time;
+    let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    let day = new Date(data.time*1000);
+    this.time =`${months[day.getMonth()]} ${day.getDate()}`
     this.forecast =data.summary;
 }
